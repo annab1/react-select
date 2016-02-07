@@ -363,8 +363,8 @@ var Select = _react2['default'].createClass({
 		valueKey: _react2['default'].PropTypes.string, // path of the label value in option objects
 		valueRenderer: _react2['default'].PropTypes.func, // valueRenderer: function (option) {}
 		wrapperStyle: _react2['default'].PropTypes.object, // optional style to apply to the component wrapper
-		inputValue: _react2['default'].PropTypes.string,
-		clearInputValue: _react2['default'].PropTypes.bool
+		inputValue: _react2['default'].PropTypes.string, // initial value for the input field
+		clearInputValue: _react2['default'].PropTypes.bool // whether to clear the input field value on select or menu close
 	},
 
 	statics: { Async: _Async2['default'] },
@@ -399,13 +399,15 @@ var Select = _react2['default'].createClass({
 			searchable: true,
 			simpleValue: false,
 			valueComponent: _Value2['default'],
-			valueKey: 'value'
+			valueKey: 'value',
+			inputValue: '',
+			clearInputValue: true
 		};
 	},
 
 	getInitialState: function getInitialState() {
 		return {
-			inputValue: this.props.inputValue || '',
+			inputValue: this.props.inputValue,
 			isFocused: false,
 			isLoading: false,
 			isOpen: false,

@@ -78,8 +78,8 @@ const Select = React.createClass({
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
 		valueRenderer: React.PropTypes.func,        // valueRenderer: function (option) {}
 		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
-		inputValue: React.PropTypes.string,
-		clearInputValue: React.PropTypes.bool
+		inputValue: React.PropTypes.string,         // initial value for the input field
+		clearInputValue: React.PropTypes.bool       // whether to clear the input field value on select or menu close
 	},
 
 	statics: { Async },
@@ -115,12 +115,14 @@ const Select = React.createClass({
 			simpleValue: false,
 			valueComponent: Value,
 			valueKey: 'value',
+			inputValue: '',
+			clearInputValue: true
 		};
 	},
 
 	getInitialState () {
 		return {
-			inputValue: this.props.inputValue || '',
+			inputValue: this.props.inputValue,
 			isFocused: false,
 			isLoading: false,
 			isOpen: false,
