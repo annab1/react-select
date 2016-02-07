@@ -78,6 +78,8 @@ const Select = React.createClass({
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
 		valueRenderer: React.PropTypes.func,        // valueRenderer: function (option) {}
 		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
+		inputValue: React.PropTypes.string,
+		clearInputValue: React.PropTypes.bool
 	},
 
 	statics: { Async },
@@ -118,7 +120,7 @@ const Select = React.createClass({
 
 	getInitialState () {
 		return {
-			inputValue: '',
+			inputValue: this.props.inputValue || '',
 			isFocused: false,
 			isLoading: false,
 			isOpen: false,
@@ -251,7 +253,7 @@ const Select = React.createClass({
 		this.setState({
 			isOpen: false,
 			isPseudoFocused: this.state.isFocused && !this.props.multi,
-			inputValue: '',
+			inputValue: this.props.clearInputValue? '' : this.state.inputValue,
 		});
 	},
 
@@ -398,16 +400,17 @@ const Select = React.createClass({
 	},
 
 	selectValue (value) {
+		var inputValueToSet = this.props.clearInputValue? '' : this.state.inputValue;
 		if (this.props.multi) {
 			this.addValue(value);
 			this.setState({
-				inputValue: '',
+				inputValue: inputValueToSet,
 			});
 		} else {
 			this.setValue(value);
 			this.setState({
 				isOpen: false,
-				inputValue: '',
+				inputValue: inputValueToSet,
 				isPseudoFocused: this.state.isFocused,
 			});
 		}
@@ -580,8 +583,8 @@ const Select = React.createClass({
 	renderClear () {
 		if (!this.props.clearable || !this.props.value || (this.props.multi && !this.props.value.length) || this.props.disabled || this.props.isLoading) return;
 		return (
-			<span className="Select-clear-zone" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} 
-						aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} 
+			<span className="Select-clear-zone" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText}
+						aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText}
 						onMouseDown={this.clearValue}
 						onTouchStart={this.handleTouchStart}
 						onTouchMove={this.handleTouchMove}
@@ -715,11 +718,11 @@ const Select = React.createClass({
 		return (
 			<div ref="wrapper" className={className} style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
-				<div ref="control" 
-						 className="Select-control" 
-						 style={this.props.style} 
-						 onKeyDown={this.handleKeyDown} 
-						 onMouseDown={this.handleMouseDown} 
+				<div ref="control"
+						 className="Select-control"
+						 style={this.props.style}
+						 onKeyDown={this.handleKeyDown}
+						 onMouseDown={this.handleMouseDown}
 						 onTouchEnd={this.handleTouchEnd}
 						 onTouchStart={this.handleTouchStart}
 						 onTouchMove={this.handleTouchMove}>
@@ -731,9 +734,9 @@ const Select = React.createClass({
 				</div>
 				{isOpen ? (
 					<div ref="menuContainer" className="Select-menu-outer" style={this.props.menuContainerStyle}>
-						<div ref="menu" className="Select-menu" 
-								 style={this.props.menuStyle} 
-								 onScroll={this.handleMenuScroll} 
+						<div ref="menu" className="Select-menu"
+								 style={this.props.menuStyle}
+								 onScroll={this.handleMenuScroll}
 								 onMouseDown={this.handleMouseDownOnMenu}>
 							{this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)}
 						</div>
