@@ -608,8 +608,8 @@ var Select = _react2['default'].createClass({
 		}
 
 		// prevent default event handlers
-		event.stopPropagation();
-		event.preventDefault();
+		//event.stopPropagation();
+		//event.preventDefault();
 
 		// for the non-searchable select, toggle the menu
 		if (!this.props.searchable) {
