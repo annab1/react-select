@@ -210,8 +210,10 @@ const Select = React.createClass({
 		}
 
 		// prevent default event handlers
-		//event.stopPropagation();
-		//event.preventDefault();
+		if (event.target.parentNode.className !== 'Select-input') {
+			event.stopPropagation();
+			event.preventDefault();
+		}
 
 		// for the non-searchable select, toggle the menu
 		if (!this.props.searchable) {
