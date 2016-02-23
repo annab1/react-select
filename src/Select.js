@@ -79,7 +79,8 @@ const Select = React.createClass({
 		valueRenderer: React.PropTypes.func,        // valueRenderer: function (option) {}
 		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
 		inputValue: React.PropTypes.string,         // initial value for the input field
-		clearInputValue: React.PropTypes.bool       // whether to clear the input field value on select or menu close
+		clearInputValue: React.PropTypes.bool,      // whether to clear the input field value on select or menu close
+		onClear: React.PropTypes.func               // onClear handler: function () {}
 	},
 
 	statics: { Async },
@@ -444,6 +445,11 @@ const Select = React.createClass({
 		if (event && event.type === 'mousedown' && event.button !== 0) {
 			return;
 		}
+
+		if (this.props.onClear) {
+			this.props.onClear();
+		}
+
 		event.stopPropagation();
 		event.preventDefault();
 		this.setValue(null);
