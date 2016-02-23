@@ -365,7 +365,9 @@ var Select = _react2['default'].createClass({
 		wrapperStyle: _react2['default'].PropTypes.object, // optional style to apply to the component wrapper
 		inputValue: _react2['default'].PropTypes.string, // initial value for the input field
 		clearInputValue: _react2['default'].PropTypes.bool, // whether to clear the input field value on select or menu close
-		onClear: _react2['default'].PropTypes.func // onClear handler: function () {}
+		onClear: _react2['default'].PropTypes.func, // onClear handler: function () {}
+		disableEscape: _react2['default'].PropTypes.bool, // disables escape functionality
+		disableEnter: _react2['default'].PropsTypes.bool // disables enter functionality
 	},
 
 	statics: { Async: _Async2['default'] },
@@ -605,15 +607,17 @@ var Select = _react2['default'].createClass({
 				break;
 			case 13:
 				// enter
-				if (!this.state.isOpen) return;
+				if (!this.state.isOpen || this.props.disableEnter) return;
 				this.selectFocusedOption();
 				break;
 			case 27:
 				// escape
-				if (this.state.isOpen) {
-					this.closeMenu();
-				} else if (this.props.clearable && this.props.escapeClearsValue) {
-					this.clearValue(event);
+				if (!this.props.disableEscape) {
+					if (this.state.isOpen) {
+						this.closeMenu();
+					} else if (this.props.clearable && this.props.escapeClearsValue) {
+						this.clearValue(event);
+					}
 				}
 				break;
 			case 38:

@@ -80,7 +80,9 @@ const Select = React.createClass({
 		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
 		inputValue: React.PropTypes.string,         // initial value for the input field
 		clearInputValue: React.PropTypes.bool,      // whether to clear the input field value on select or menu close
-		onClear: React.PropTypes.func               // onClear handler: function () {}
+		onClear: React.PropTypes.func,              // onClear handler: function () {}
+		disableEscape: React.PropTypes.bool,        // disables escape functionality
+		disableEnter: React.PropsTypes.bool         // disables enter functionality
 	},
 
 	statics: { Async },
@@ -317,14 +319,16 @@ const Select = React.createClass({
 				this.selectFocusedOption();
 			break;
 			case 13: // enter
-				if (!this.state.isOpen) return;
+				if (!this.state.isOpen || this.props.disableEnter) return;
 				this.selectFocusedOption();
 			break;
 			case 27: // escape
-				if (this.state.isOpen) {
-					this.closeMenu();
-				} else if (this.props.clearable && this.props.escapeClearsValue) {
-					this.clearValue(event);
+				if (!this.props.disableEscape) {
+					if (this.state.isOpen) {
+						this.closeMenu();
+					} else if (this.props.clearable && this.props.escapeClearsValue) {
+						this.clearValue(event);
+					}
 				}
 			break;
 			case 38: // up
