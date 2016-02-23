@@ -82,7 +82,7 @@ const Select = React.createClass({
 		clearInputValue: React.PropTypes.bool,      // whether to clear the input field value on select or menu close
 		onClear: React.PropTypes.func,              // onClear handler: function () {}
 		disableEscape: React.PropTypes.bool,        // disables escape functionality
-		disableEnter: React.PropsTypes.bool         // disables enter functionality
+		disableEnter: React.PropTypes.bool         // disables enter functionality
 	},
 
 	statics: { Async },
@@ -119,7 +119,9 @@ const Select = React.createClass({
 			valueComponent: Value,
 			valueKey: 'value',
 			inputValue: '',
-			clearInputValue: true
+			clearInputValue: true,
+			disableEscape: false,
+			disableEnter: false
 		};
 	},
 
